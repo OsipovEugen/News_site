@@ -1,1 +1,1 @@
-Testing GitHub 
+This is repository of my pet project

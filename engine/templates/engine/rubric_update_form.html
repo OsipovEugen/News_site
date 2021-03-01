@@ -1,0 +1,26 @@
+{% extends 'engine/base_news.html' %}
+{% block title %} Update Rubric - {{ block.super }} {% endblock %}
+{% block content %}
+
+	<form method="post" action="">
+		{% csrf_token %}
+		{% for field in form %}
+			<div class="form-group mb-2">
+				{% if field.errors %}
+					<div class="aller-danger">
+						{{ field.error}}
+					</div>
+				{% endif %}
+				{{ field.label }}
+				{{ field }}
+
+			</div>
+		{% endfor %}	
+		<input type="submit" class="btn btn-primary" value="Update">
+	</form>
+		
+
+
+
+
+{% endblock %}

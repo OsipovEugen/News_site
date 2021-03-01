@@ -1,0 +1,18 @@
+{% extends 'engine/base_news.html' %}
+{% block title %}
+	Rubric: {{rubrics|title}} - {{block.super}}
+{% endblock %}
+
+
+{% block content %}
+
+	<h1 class="mb-5">Posts with "{{ rubrics.title|title }}" tag :</h1>
+	<a href="{{ rubrics.get_update_url }} " class='btn btn-primary'>Update </a>
+	<a href="{{ rubrics.get_delete_url }} " class='btn btn-danger'>Delete</a>
+
+
+	{% for post in rubrics.news.all %}
+		{% include 'engine/includes/news_card_template.html' %}
+	{% endfor %}
+
+{% endblock %}

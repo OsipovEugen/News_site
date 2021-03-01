@@ -1,0 +1,26 @@
+
+<div class="card mb-5" style="width: 18rem;" >
+	{% if post.image %}
+		<img class="card-img-top" src="{{ post.image.url }}" alt="Card image cap">
+	{% endif %}
+	<div class="card-header">
+		{{ post.pub_time }}
+	</div>
+	<div class="card-body ">
+		<h5 class="card-title">{{ post.title }}</h5>
+		<p class="card-text">{{ post.body|truncatewords:15 }}</p>
+		<a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read</a>
+	</div>
+	<div class="card-footer text-muted">
+		Tags:
+		{% for rubric in post.rubric.all %}
+		<a href="{% url 'rubric_detail_url' slug=rubric.slug%}"><p>{{ rubric.title }}</p></a>
+		{% endfor %}	
+	</div>
+	<div class="card-footer text-muted">
+		Authors:
+		{% for author in post.authors.all %}
+			<a href="{{ author.get_absolute_url }}"> {{ author.name }} {{ author.surname }}, </a>
+		{% endfor %}
+	</div>
+</div>

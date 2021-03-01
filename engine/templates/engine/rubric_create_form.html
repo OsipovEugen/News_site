@@ -1,0 +1,32 @@
+{% extends 'engine/base_news.html' %}
+{% block title %} Create Rubric - {{ block.super }} {% endblock %}
+{% block content %}
+	
+	<form method="post" action="{% url 'rubrics_create_url' %}">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		{% for field in form %}
+			<div class="form-group mb-2">
+				<div class="form-row">
+					<div class="col-md-2">
+						{{ field.label }}
+						{{ field }}
+						{% if field.errors %}
+							{% for error in field.errors%}
+							<div class="alert-danger">
+								{{ error }}
+							</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endfor %}	
+		<button type="submit" class="btn btn-primary"> Create </button>
+	</form>
+		
+
+
+
+
+{% endblock %}

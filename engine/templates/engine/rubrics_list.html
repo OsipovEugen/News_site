@@ -1,0 +1,14 @@
+{% extends 'engine/base_news.html' %}
+{% block title %}
+	Rubrics - {{block.super}}
+{% endblock %}
+
+{% block content %}
+
+<h1>Rubrics:</h1>
+{% for rubric in rubrics %}	
+	<a href="{{ rubric.get_absolute_url }}"><p>{{ rubric.title }}</p>
+{% endfor %}
+<a href="{% url 'rubrics_create_url' %}" class="btn btn-primary"><p>Create</p>
+
+{% endblock%}

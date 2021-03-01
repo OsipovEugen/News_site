@@ -1,0 +1,27 @@
+{% extends 'engine/base_news.html' %}
+{% block title %}
+	Author: {{current_author.title|title}} - {{block.super}}
+{% endblock %}
+
+{% block content %}
+
+	<h1>Profile</h1>
+	{% if current_author.photo %}}
+		<img src="{{ current_author.photo.url }}" width="300" height="400">
+	{% endif %}
+		<h3>{{ current_author.name }} {{ current_author.surname }}</h3>
+		<p>{{ current_author.email }}</p>
+	News:
+	{% for news in current_author.authors_of_news.all %}	 
+
+		<div class="col-lg-2">
+			<ul class="list-group">
+				<li class="list-group-item list-group-item-dark"> <a href="{{ news.get_absolute_url }}">{{ news.title }}</a> </li>	
+			</ul>
+		</div>
+		
+	{% endfor %}
+	<!-- <a href="{{ news.get_update_url }}" class="btn btn-primary"> Update Post</a>
+	<a href="{{ news.get_delete_url }}" class="btn btn-danger"> Delete Post</a> -->
+
+{% endblock %}

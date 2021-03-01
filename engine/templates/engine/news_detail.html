@@ -1,0 +1,65 @@
+{% extends 'engine/base_news.html' %}
+{% block title %}
+	News: {{news.title|title}} - {{block.super}}
+{% endblock %}
+
+{% block content %}
+	<div class="ml-10">
+		<h1>News:</h1>
+		{% if news.image %}}
+			<img src="{{ news.image.url }}">
+		{% endif %}
+			<h3>{{ news.title }}</h3>
+			<p>{{ news.body }}</p>
+		<h4>Rubrics:</h4>
+			{% for rubric in news.rubric.all %}
+				<p>{{ rubric.title }}</p>
+			{% endfor %}
+
+		<h4>Authors:</h4>
+			{% for author in news.authors.all %}
+				<a href="{{ author.get_absolute_url }}"><p>{{ author.name }} {{ author.surname }},</p> </a>
+			{% endfor %}
+
+		<a href="{{ news.get_update_url }}" class="btn btn-primary"> Update Post</a>
+		<a href="{{ news.get_delete_url }}" class="btn btn-danger"> Delete Post</a>
+		<h1>Comments {{ news.comments.all.count }} </h1>
+
+
+		{% if user.is_authenticated %}
+		<form action="{{ news.get_absolute_url }}" enctype="multipart/form-data" method="post">
+			{% csrf_token %}
+			{% for field in form %}
+					<div class="form-row">
+						<div class="col-md-3 ">
+							{{ field.label }}
+							<p> {{ field }} </p>
+						</div>
+					</div>	
+					{% if field.errors %}
+						{% for error in field.errors%}
+							<div class="col-md-3 ">
+								<div class="alert-danger">
+									<p>{{ error }}</p>
+								</div>
+							</div>
+						{% endfor  %}
+					{% endif %}
+			{% endfor %}
+			<button type="submit" class="btn btn-primary"> Create </button>
+		</form>
+		{% endif %}
+
+
+		{% for comment in active_comments %}	
+			<h4>{{comment.name}}</h4>
+			<p>{{comment.body}}</p>
+			<p>{{comment.email}}</p>
+			<p>{{comment.created}}</p>
+			{% if comment.active %}
+				<p style="color: green">Approved ✔</p>
+			{% endif %}
+		{% endfor %}
+	</div>
+
+{% endblock %}

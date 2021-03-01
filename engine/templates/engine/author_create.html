@@ -1,0 +1,28 @@
+{% extends 'engine/base_news.html' %}
+{% block title %}
+	Create Author - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+	<form action="{% url 'author_create_url' %}" enctype="multipart/form-data" method="post">
+		{% csrf_token %}
+		{% for field in author_create_form %}
+				<div class="form-row">
+					<div class="col-md-3 ">
+						{{ field.label }}
+						<p> {{ field }} </p>
+					</div>
+				</div>	
+				{% if field.errors %}
+					{% for error in field.errors%}
+						<div class="col-md-3 ">
+							<div class="alert-danger">
+								<p>{{ error }}</p>
+							</div>
+						</div>
+					{% endfor  %}
+				{% endif %}
+		{% endfor %}
+		<input type="submit" values="Create" class="btn btn-primary">
+	</form>	
+{% endblock %}

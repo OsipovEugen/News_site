@@ -2,8 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 	<title> 
 	{% block title %} 
 		News portal 
@@ -19,10 +21,13 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'news_list_url'%}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'news_list_url'%}">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'authors_list_url' %}">Authors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'rubrics_list_url' %}">Rubrics</a>
       </li>
       {% if not request.user.is_authenticated %}
         <li class="nav-item">
@@ -32,16 +37,6 @@
           <a class="nav-link" href="{% url 'register_url' %}">Register</a>
         </li>
       {% endif %}
-      
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown link
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item"> </a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
         {% if  request.user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link btn btn-danger ml-5" href="{% url 'logout_url' %}">Logout</a>
@@ -52,6 +47,15 @@
   </div>
 </nav>
 	{% block content %}
+  
 	{% endblock %}
+{% if request.user.is_authenticated and request.user.is_staff %}
+<div class="admin-panel align-items-center">
+  <a href="/admin" class="btn btn-outline-info">Admin</a>
+  {% block admin-panel %}
+  {% endblock %}
+</div>
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 </html>

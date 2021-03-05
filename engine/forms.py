@@ -7,16 +7,14 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 class NewsForm(forms.ModelForm):
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		for field in self.fields:
+			self.fields[field].widget.attrs['class'] = 'form-control'
+
 	class Meta:
 		model = News
 		fields = ['title', 'body', 'image', 'rubric', 'authors']
-		widgets = {
-		'title': forms.TextInput(attrs={'class':'form-control'}),
-		'body': forms.TextInput(attrs={'class':'form-control'}),
-		'rubric': forms.SelectMultiple(attrs={'class':'form-control'}),
-		'slug': forms.TextInput(attrs={'class':'form-control'}),
-		'authors': forms.SelectMultiple(attrs={'class':'form-control'})
-		}
 
 	def clean_slug(self):
 		new_slug = self.cleaned_data['slug'].lower()
@@ -62,67 +60,36 @@ class AuthorForm(forms.ModelForm):
 
 	class Meta:
 		model = Authors
-		fields = '__all__'
-		widgets = {
-		'name': forms.TextInput(attrs={'class':'form-control'}),
-		'surname': forms.TextInput(attrs={'class':'form-control'}),
-		'email': forms.EmailInput(attrs={'class': 'form-control',
-										 'placeholder': 'name@example.com'}),
-		'age':forms.NumberInput(attrs={'class':'form-control'}),
-		}
+		fields = ('name', 'surname', 'age', 'email', 'photo')
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		for field in self.fields:
+			self.fields[field].widget.attrs['class'] = 'form-control'
 
 	def clean_email(self):
 		new_email = self.cleaned_data['email']
 		if Authors.objects.filter(email__iexact=new_email).count():
 			raise ValidationError('Email has to be unique')
-
-
-
-
+		else:
+			return new_email
 
 
 class CommentForm(forms.ModelForm):
-
-	# def __init__(self, *args, **kwargs):
-	# 	self.user = kwargs.pop('user', None)
-	# 	super().__init__(*args, **kwargs)
-
-
 
 	class Meta:
 		model = Comment
 		fields = ('body', )
 		widgets = {
-		'name':forms.HiddenInput(),
-		'email':forms.EmailInput(attrs={'class':'form-control'}),
-		'body':forms.TextInput(attrs={'class':'form-control'}),
+		'body':forms.TextInput(attrs={'class':'form-control textarea'}),
 		}
-
-	# def clean(self):
-	# 	super().clean()
-	# 	# print(self.instance.user.username)
-	# 	auth_user = cleaned_data['name']
-	# 	print(auth_user)
-	# 	auth_user = self.user
-	# 	print(cleaned_data['name'])
-	# 	return auth_user
-
-
-
-
-
 
 
 class LoginForm(AuthenticationForm,forms.ModelForm):
 
-
 	class Meta:
 		model = User
 		fields = ('username', 'password')
-		widgets = {
-		'email':forms.EmailInput(attrs={'class':'form-control'}),
-		'password':forms.PasswordInput(attrs={'class':'form-control'}),
-		}
 
 	def __init__(self,*args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -132,6 +99,11 @@ class LoginForm(AuthenticationForm,forms.ModelForm):
 
 class RegisterForm(UserCreationForm):
 	email = forms.EmailField(max_length=254)
+
+
+	class Meta:
+		model = User
+		fields = ('username', 'password1', 'password2', 'email')
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -151,8 +123,6 @@ class RegisterForm(UserCreationForm):
 			raise ValidationError('Email has to be unique')
 
 
-	class Meta:
-		model = User
-		fields = ('username', 'password1', 'password2', 'email')
+	
 
 

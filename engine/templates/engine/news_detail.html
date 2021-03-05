@@ -2,9 +2,11 @@
 {% block title %}
 	News: {{news.title|title}} - {{block.super}}
 {% endblock %}
-
 {% block content %}
+	
 	<div class="ml-10">
+
+		
 		<h1>News:</h1>
 		{% if news.image %}}
 			<img src="{{ news.image.url }}">
@@ -17,14 +19,16 @@
 			{% endfor %}
 
 		<h4>Authors:</h4>
+			<ul class="list-group">
 			{% for author in news.authors.all %}
-				<a href="{{ author.get_absolute_url }}"><p>{{ author.name }} {{ author.surname }},</p> </a>
+  			<ul>
+  				<li><a href="{{ author.get_absolute_url }}"> {{ author.name }} {{ author.surname }}</a></li>
+  			</ul>
 			{% endfor %}
+			</ul>
 
-		<a href="{{ news.get_update_url }}" class="btn btn-primary"> Update Post</a>
-		<a href="{{ news.get_delete_url }}" class="btn btn-danger"> Delete Post</a>
-		<h1>Comments {{ news.comments.all.count }} </h1>
 
+		<h1>Comments {{ comments_by_post.count }} </h1>
 
 		{% if user.is_authenticated %}
 		<form action="{{ news.get_absolute_url }}" enctype="multipart/form-data" method="post">
@@ -50,8 +54,7 @@
 		</form>
 		{% endif %}
 
-
-		{% for comment in active_comments %}	
+		{% for comment in comments_by_post %}	
 			<h4>{{comment.name}}</h4>
 			<p>{{comment.body}}</p>
 			<p>{{comment.email}}</p>

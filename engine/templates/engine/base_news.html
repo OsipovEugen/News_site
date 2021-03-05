@@ -1,2 +1,21 @@
 {% extends 'base.html' %}
+{% block admin-panel %}
+	<div class="dropdown">
+  <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    Create
+  </a>
 
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="{% url 'news_create_url' %}">News</a></li>
+    <li><a class="dropdown-item" href="{% url 'rubrics_create_url' %}">Rubric</a></li>
+  </ul>
+</div>
+{% if show %}
+	<a href="{{ model.get_update_url }}" class="btn btn-light" >Edit</a>
+	<a href="{{ model.get_delete_url }}" class="btn btn-danger" >Delete</a>	
+{% endif %}
+	
+	
+{% endblock %}
+
+	

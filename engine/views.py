@@ -37,7 +37,10 @@ class NewsDetailView(DetailView, FormMixin):
 	def get_context_data(self, **kwargs):
 		""" Фильтрует комментарии, активные или нет """
 		context = super().get_context_data()
-		context['active_comments'] = Comment.objects.filter(active=True)
+		context['comments_by_post'] = self.get_object().comments.filter(active=True)
+		# context['active_comments'] = Comment.objects.filter(active=True)
+		context['model'] = self.get_object()
+		context['show'] = True # Отображать Update и Delete в админ панели или нет
 		return context
 
 	def post(self, request, *args, **kwargs):
@@ -52,8 +55,8 @@ class NewsDetailView(DetailView, FormMixin):
 		''' Проверка валидности формы'''
 		self.object = form.save(commit=False) # Берем форму но не сохраняем ее в БД
 		self.object.post = self.get_object() # Вытягиваем название поста
-		self.object.name = self.request.user
-		self.object.email = self.request.user.email
+		self.object.name = self.request.user # Вытягиваем юзера
+		self.object.email = self.request.user.email # Вытягиваем email юзера
 		self.object.save() # Сохраняем форму в БД
 		return super().form_valid(form)
 
@@ -62,7 +65,7 @@ class NewsCreate(CreateView):
 	form_class = NewsForm
 	template_name = 'engine/news_create_form.html'
 	raise_exception = True
-	context_object_name = 'form'
+
 
 
 class NewsUpdate(UpdateView):
@@ -93,6 +96,13 @@ class RubricDetailView(DetailView):
 	model = Rubrics
 	template = 'rubrics_detail.html'
 	context_object_name = 'rubrics'
+
+	def get_context_data(self, **kwargs):
+		print(self.get_object())
+		context = super().get_context_data()
+		context['model'] = self.get_object()
+		context['show'] = True # Отображать Update и Delete в админ панели или нет
+		return context
 
 
 class RubricCreate(CreateView):

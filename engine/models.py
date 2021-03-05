@@ -122,22 +122,3 @@ class Comment(models.Model):
 	def __str__(self):
 		return (f'Comment by {self.name} on {self.post}')
 
-
-# class Vote(models.Model):
-# 	UP = 1
-# 	DOWN = - 1
-# 	VALUE_CHOICES = (  
-# 		(UP,'👍' ), # Первый элемент каждого кортежа – это значение, которое будет сохранено в базе данных
-# 		(DOWN,'👎') # Второй элемент – название, которое будет отображаться для пользователей
-# 		)
-# 	value = models.SmallIntegerField(choices=VALUE_CHOICES)
-# 	# user = models.ForeignKey()
-# 	time_voted = models.DateTimeField(auto_now_add=True)
-# 	news = models.ForeignKey('News', on_delete=models.CASCADE)
-	
-# 	class Meta:
-# 		unique_together = ('user', 'movie')
-
-
-
-# Create your models here.

@@ -116,20 +116,13 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = (BASE_DIR / 'static')
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+# STATIC_ROOT = (BASE_DIR / 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'media')
 
                   
-# STATICFILE_DIRS = (BASE_DIR / 'static_dev')
-
-# MEDIA_ROOT = BASE_DIR / 'media'
-# MEDIA_URL = '/media/'
-# MEDIAFILES_DIRS=(BASE_DIR / 'media')
-
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 

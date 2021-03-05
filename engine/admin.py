@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import *
 
-# admin.site.register(News)
 
 class NewsAdmin(admin.ModelAdmin):
 	list_display = ('title', 'pub_time', 'image')
@@ -19,7 +18,7 @@ class AutrhorsAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-	list_display = ('name', 'email')
+	list_display = ('name', 'email', 'active', 'body')
 	list_filter = ('name', 'created', 'email', 'active', 'post')
 	search_fields = ('name', 'email', 'body')
 

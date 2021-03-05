@@ -5,14 +5,12 @@
 
 
 	{% block content%}
+	
 	{{request.user}}
-	<h1>News:</h1>
-	{{ now }}
-	{% for post in posts %}
-		{% include 'engine/includes/news_card_template.html' %}
-	{% endfor %}
-
-	<a href="{% url 'rubrics_list_url' %}"><h2>Rubrics</h2></a>
-	<a href="{% url 'news_create_url' %}" class="btn btn-primary">Create News</a>
-
+		<div class=" ms-3">
+				<h1>News:</h1>
+				{% for post in posts %}
+					{% include 'engine/includes/news_card_template.html' %}
+				{% endfor %}
+		</div>
 {% endblock %}

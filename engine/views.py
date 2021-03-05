@@ -1,15 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import authenticate, login
 from django.contrib import auth 
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic.edit import CreateView
 from django.views import View
+from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 
@@ -18,6 +18,7 @@ class NewsListView(ListView):
 	model = News
 	template = 'news_list.html'
 	context_object_name = 'posts'
+	paginate_by = 1
 	def get_context_data(self,  **kwargs):   # добавления контекста в шаблон
 		context = super().get_context_data(**kwargs)
 		context['now'] = timezone.now()

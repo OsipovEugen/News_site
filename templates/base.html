@@ -38,8 +38,11 @@
         </li>
       {% endif %}
         {% if  request.user.is_authenticated %}
+        <li class="nav-link">
+          <a class="nav-link" href="{% url 'change_password_url' %}">Change Password</a>
+        </li>
         <li class="nav-item">
-            <a class="nav-link btn btn-danger ml-5" href="{% url 'logout_url' %}">Logout</a>
+          <a class="nav-link btn btn-danger" href="{% url 'logout_url' %}">Logout</a>
         </li>
         {% endif %}
       </li>

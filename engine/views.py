@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin, CreateView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.auth import authenticate, login
 from django.contrib import auth 
 from django.contrib.auth.decorators import login_required
@@ -166,6 +166,13 @@ class LoginView(LoginView):
 		return self.success_url
 
 
+class ChangePasswordView(PasswordChangeView):
+	"""Смена пароля"""
+	form_class = ChangePasswordForm
+	template_name = 'engine/change_password.html'
+	success_url = reverse_lazy('news_list_url')
+	title = ('Password Change')
+
 class RegisterView(CreateView):
 	""" Регистрация """
 	model = User
@@ -185,6 +192,7 @@ class RegisterView(CreateView):
 class LogOutView(LogoutView):
 	""" Выход с учетной записи """
 	next_page = reverse_lazy('news_list_url')
+
 
 
 

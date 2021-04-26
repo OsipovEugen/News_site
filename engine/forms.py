@@ -2,7 +2,7 @@ from django import forms
 from .models import News, Rubrics, Authors, Comment
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, SetPasswordForm
 
 
 class NewsForm(forms.ModelForm):
@@ -95,6 +95,30 @@ class LoginForm(AuthenticationForm,forms.ModelForm):
 		super().__init__(*args, **kwargs)
 		for field in self.fields:
 			self.fields[field].widget.attrs['class'] = 'form-control'
+
+
+class ChangePasswordForm(PasswordChangeForm):
+	old_password = forms.CharField(
+        label=("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True}),
+    )
+
+	error_messages = {
+		**SetPasswordForm.error_messages,
+		'password_incorrect':'Your old password is incorrect.Please, try again'
+	}
+
+	def clean_old_password(self):
+		old_password = self.cleaned_data['old_password']
+		if not self.user.check_password(old_password):
+			raise ValidationError(
+				self.error_messages['password_incorrect']
+				)
+			return old_password
+
+
+
 
 
 class RegisterForm(UserCreationForm):

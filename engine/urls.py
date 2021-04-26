@@ -26,6 +26,7 @@ urlpatterns = [
 
     # Auth
     path('login/', LoginView.as_view(), name='login_url'),
+    path('change_password/', ChangePasswordView.as_view(), name='change_password_url'),
     path('register/', RegisterView.as_view(), name='register_url'),
     path('logout/', LogOutView.as_view(), name='logout_url'),
 

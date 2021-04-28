@@ -12,6 +12,9 @@ from django.views import View
 from django.core.paginator import Paginator
 from .models import *
 from .forms import *
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class NewsListView(ListView):
@@ -192,6 +195,27 @@ class RegisterView(CreateView):
 class LogOutView(LogoutView):
 	""" Выход с учетной записи """
 	next_page = reverse_lazy('news_list_url')
+
+
+
+class ProfileView(ListView):
+	model = User
+	template_name = 'engine/profile.html'
+	context_object_name = 'profile'
+
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		context['profile'] = User.objects.get(username=self.request.user.username)
+		return context
+
+
+class ProfileUpdateView(UpdateView):
+	model = User
+	form_class = ProfileUpdateForm
+	template_name = 'engine/profile_edit.html'
+	context_object_name = 'profile'
+	success_url = reverse_lazy('profile_url')
+
 
 
 

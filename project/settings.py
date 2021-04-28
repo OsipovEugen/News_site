@@ -117,6 +117,7 @@ USE_TZ = True
 
 
 
+AUTH_USER_MODEL = 'engine.User'# для использования кастомной модели User(AbstractUser)
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [

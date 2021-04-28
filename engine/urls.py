@@ -31,6 +31,11 @@ urlpatterns = [
     path('logout/', LogOutView.as_view(), name='logout_url'),
 
 
+    #Profile
+    path('profile/', ProfileView.as_view(), name='profile_url'),
+    path('profile/edit/<int:pk>', ProfileUpdateView.as_view(), name='profile_edit_url'),
+
+
  ]
  
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

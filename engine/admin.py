@@ -22,10 +22,15 @@ class CommentAdmin(admin.ModelAdmin):
 	list_filter = ('name', 'created', 'email', 'active', 'post')
 	search_fields = ('name', 'email', 'body')
 
+class UserAdmin(admin.ModelAdmin):
+	list_display = ('username', 'email')
+
+
 
 admin.site.register(News, NewsAdmin)
 admin.site.register(Rubrics, RubricsAdmin)
 admin.site.register(Authors, AutrhorsAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(User, UserAdmin)
 
 # Register your models here.

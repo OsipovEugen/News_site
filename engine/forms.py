@@ -1,9 +1,11 @@
 from django import forms
-from .models import News, Rubrics, Authors, Comment
+from .models import News, Rubrics, Authors, Comment, User
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, SetPasswordForm
 
+
+User = get_user_model()
 
 class NewsForm(forms.ModelForm):
 
@@ -122,12 +124,11 @@ class ChangePasswordForm(PasswordChangeForm):
 
 
 class RegisterForm(UserCreationForm):
-	email = forms.EmailField(max_length=254)
 
 
 	class Meta:
 		model = User
-		fields = ('username', 'password1', 'password2', 'email')
+		fields = ('email','username', 'password1', 'password2',  'full_name', 'sex')
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -136,6 +137,7 @@ class RegisterForm(UserCreationForm):
 
 	def save(self, commit=True):
 		user = super().save(commit=False)
+		print(self.cleaned_data['email'])
 		user.set_password(self.cleaned_data['password1'])
 		if commit:
 			user.save()
@@ -145,8 +147,18 @@ class RegisterForm(UserCreationForm):
 		new_email = self.cleaned_data['email']
 		if User.objects.filter(email__iexact=new_email).count():
 			raise ValidationError('Email has to be unique')
+		return new_email
 
 
-	
+class ProfileUpdateForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['full_name', 'inst_link', 'face_link' ,'lin_ling']
+		labels = {'inst_link':'Instagram', 'face_link':'Facebook'}
+
+
+
+
+
 
 

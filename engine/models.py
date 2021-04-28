@@ -4,6 +4,8 @@ from time import time
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.http import HttpResponse
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 def gen_slug(s):
 	new_slug = slugify(s, allow_unicode=True)
@@ -102,8 +104,8 @@ class Authors(models.Model):
 
 
 class Comment(models.Model):
-	name = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Имя')
-	email = models.EmailField(User, blank=True, null=True, )
+	name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Имя')
+	email = models.EmailField(settings.AUTH_USER_MODEL, blank=True, null=True, )
 	body = models.TextField(max_length=300, verbose_name='Комментарий')
 	post = models.ForeignKey(News, related_name='comments', on_delete=models.CASCADE)
 	created = models.DateTimeField(auto_now_add=True, verbose_name='Время написания коммента')
@@ -121,4 +123,33 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return (f'Comment by {self.name} on {self.post}')
+
+
+class User(AbstractUser):
+	COMPANY = 1
+	USER = 2
+	MALE = 3
+	FEMALE = 4
+
+	ROLE_CHOICES = (
+		(COMPANY, 'Company'),
+		(USER, 'User')
+		)
+	SEX_CHOICES = (
+		(MALE, 'Male'),
+		(FEMALE, 'Female')
+		)
+
+
+	role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
+	sex = models.PositiveSmallIntegerField(choices=SEX_CHOICES, blank=True, null=True)
+	full_name = models.CharField( max_length=100, verbose_name='Имя Фамилия')
+	email = models.EmailField(('email address'), blank=False)
+	inst_link = models.CharField( max_length=300, blank=True)
+	face_link = models.CharField(max_length=300, blank=True)
+	lin_ling = models.CharField(max_length=300, blank=True)
+
+	# def get_absolute_url(self):
+	# 	return reverse('profile_edit_url', kwargs={'id':self.id})
+
 

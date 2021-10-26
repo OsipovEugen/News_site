@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +115,25 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+LOGIN_REDIRECT_URL = '/news'
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'social_django.context_processors.backends',
+    'social_django.context_processors.login_redirect',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='173071649673-us1mvjlh47d2uiu02t0nedscgeb01odo'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET='Ysefo67elz-1tOHYeMxEajXt'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 
 

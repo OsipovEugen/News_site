@@ -10,6 +10,6 @@
 {% for rubric in rubrics %}	
 	<a href="{{ rubric.get_absolute_url }}"><p>{{ rubric.title }}</p></a>
 {% endfor %}
-<a href="{% url 'rubrics_create_url' %}" class="btn btn-primary"><p>Create</p></a>
+
 
 {% endblock%}

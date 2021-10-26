@@ -6,7 +6,8 @@
 {% block content %}
 
 	<h1>Profile</h1>
-	{% if current_author.photo %}}
+	<p>{{ current_author.name }}</p>
+	{% if current_author.photo %}
 		<img src="{{ current_author.photo.url }}" width="300" height="400">
 	{% endif %}
 		<h3>{{ current_author.name }} {{ current_author.surname }}</h3>

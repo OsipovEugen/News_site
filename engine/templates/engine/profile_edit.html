@@ -27,21 +27,28 @@
 				<input type="submit" value="Edit" class="btn btn-success">
 			</form>
 		</div>
-	</div>
+	</div> -->
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <div class="container bootdey flex-grow-1 container-p-y">
 
 
-<form action="{% url 'profile_edit_url' profile.id %}" method="post" name="login">
+<form action="{% url 'profile_edit_url' profile.id %}" method="post" name="login" enctype="multipart/form-data">
 	{% csrf_token %}
 
   <div class="media align-items-center py-3 mb-3">
-    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-100 rounded-circle">
+	<img src="{{profile.photo.url}}" alt="" class="d-block ui-w-100 rounded-circle">
+
+<!-- 	<input type="file" name="FILES" accept="image/*" class="form-control" > -->
+<!-- <label style="display: inline-block" for="file-upload" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i> Upload Photo
+</label>
+<input id="file-upload" name="image" onchange="this.form.submit()" type="file"/> -->
+
     <div class="media-body ml-4">
-      <h4 class="font-weight-bold mb-0">{{ form.label_tag }}{{form.full_name}}</h4>
+      <h4 class="font-weight-bold mb-0">{{form.full_name}}</h4>
       <div class="text-muted mb-2">ID: {{profile.id}}</div>
       <a href="javascript:void(0)" class="btn btn-default btn-sm icon-btn"><i class="fa fa-mail"></i></a>
     </div>

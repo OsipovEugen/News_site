@@ -6,12 +6,12 @@
 <div class="container bootdey flex-grow-1 container-p-y">
 
   <div class="media align-items-center py-3 mb-3">
-    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-100 rounded-circle">
+    <img src="{{profile.photo.url}}" alt="" class="d-block ui-w-100 rounded-circle">
+    
     <div class="media-body ml-4">
       <h4 class="font-weight-bold mb-0">{{profile.full_name}}</h4>
       <div class="text-muted mb-2">ID: {{profile.id}}</div>
       <a href="{% url 'profile_edit_url' profile.id %}" class="btn btn-primary btn-sm">Edit</a>&nbsp;
-      <a href="javascript:void(0)" class="btn btn-default btn-sm">Profile</a>&nbsp;
       <a href="javascript:void(0)" class="btn btn-default btn-sm icon-btn"><i class="fa fa-mail"></i></a>
     </div>
   </div>

@@ -59,7 +59,6 @@ class RubricForm(forms.ModelForm):
 
 
 class AuthorForm(forms.ModelForm):
-
 	class Meta:
 		model = Authors
 		fields = ('name', 'surname', 'age', 'email', 'photo')
@@ -155,9 +154,6 @@ class ProfileUpdateForm(forms.ModelForm):
 		model = User
 		fields = ['full_name', 'inst_link', 'face_link' ,'lin_ling']
 		labels = {'inst_link':'Instagram', 'face_link':'Facebook'}
-
-
-
 
 
 

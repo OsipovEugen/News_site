@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin, CreateView
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.views.generic.base import RedirectView
 from django.contrib.auth import authenticate, login
 from django.contrib import auth 
 from django.contrib.auth.decorators import login_required
@@ -131,7 +132,12 @@ class RubricDelete(DeleteView):
 
 # AUTHOR VIEWS # AUTHOR VIEWS # AUTHOR VIEWS # AUTHOR VIEWS # AUTHOR VIEWS # AUTHOR VIEWS # AUTHOR VIEWS # AUTHOR VIEWS
 
-
+class AuthorUpdate(UpdateView):
+	model = Authors
+	# fields = ['name', 'surname', 'age', 'photo']
+	form_class = AuthorForm
+	template_name = 'engine/author_update_form.html'
+	success_url = reverse_lazy('authors_list_url')
 
 class AuthorsList(ListView):
 	model = Authors
@@ -144,6 +150,21 @@ class AuthorDetail(DetailView):
 	model = Authors
 	context_object_name = 'current_author'
 	template_name = 'engine/author_detail.html'
+
+	def get_context_data(self, **kwargs):
+		print('222', self.get_object())
+		context = super().get_context_data()
+		context['model'] = self.get_object()
+		context['show'] = True # Отображать Update и Delete в админ панели или нет
+		return context
+	
+	print('111', Authors.objects.get(name='Eugen'))
+
+	
+class AuthorDelete(DeleteView):
+	model = Authors
+	template_name = 'engine/author_delete_confirm.html'
+	success_url = reverse_lazy('authors_list_url')
 
 
 class AuthorCreate(CreateView):

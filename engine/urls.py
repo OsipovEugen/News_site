@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
-from django.urls import path
+from django.urls import path, include
 from project import settings
 from .views import *
 
@@ -23,6 +23,8 @@ urlpatterns = [
     path('authors_list/', AuthorsList.as_view(), name='authors_list_url'),
     path('author/<str:slug>', AuthorDetail.as_view(), name='author_detail_url'),
     path('author/create/', AuthorCreate.as_view(), name='author_create_url'),
+    path('author/<str:slug>/delete', AuthorDelete.as_view(), name='author_delete_url'),
+    path('author/update/<str:slug>/', AuthorUpdate.as_view(), name='author_update_url'),
 
     # Auth
     path('login/', LoginView.as_view(), name='login_url'),
@@ -34,6 +36,7 @@ urlpatterns = [
     #Profile
     path('profile/', ProfileView.as_view(), name='profile_url'),
     path('profile/edit/<int:pk>', ProfileUpdateView.as_view(), name='profile_edit_url'),
+    path('', include('social_django.urls', namespace='social'))
 
 
  ]

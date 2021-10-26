@@ -82,12 +82,18 @@ class Authors(models.Model):
 	surname = models.CharField(max_length=150, unique=True, verbose_name='Фамилия')
 	age = models.IntegerField(verbose_name='Возраст')
 	email = models.EmailField(max_length=254, verbose_name='E-Mail')
-	photo = models.ImageField(upload_to='profile_photos', verbose_name='Фото профиля')
+	photo = models.ImageField(upload_to='author_photos', verbose_name='Фото профиля')
 	slug = models.SlugField(unique=True, blank=True, allow_unicode=True, editable=False)
 
 
 	def get_absolute_url(self):
 		return reverse('author_detail_url',kwargs={'slug':self.slug})
+
+	def get_update_url(self):
+		return reverse('author_update_url', kwargs={'slug':self.slug})
+
+	def get_delete_url(self):
+		return reverse('author_delete_url', kwargs={'slug':self.slug})
 
 	class Meta:
 		verbose_name = 'Автор'
@@ -140,7 +146,7 @@ class User(AbstractUser):
 		(FEMALE, 'Female')
 		)
 
-
+	photo = models.ImageField(upload_to='user_photos', verbose_name='Фото профиля', blank=True, null=True)
 	role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
 	sex = models.PositiveSmallIntegerField(choices=SEX_CHOICES, blank=True, null=True)
 	full_name = models.CharField( max_length=100, verbose_name='Имя Фамилия')
@@ -149,7 +155,11 @@ class User(AbstractUser):
 	face_link = models.CharField(max_length=300, blank=True)
 	lin_ling = models.CharField(max_length=300, blank=True)
 
-	# def get_absolute_url(self):
-	# 	return reverse('profile_edit_url', kwargs={'id':self.id})
+
+
+# class Follow(models.Model):
+# 	follower = models.ForeignKey(User, related_name='who_follows')
+# 	followed = models.ForeignKey(User, related_neme='who_is_followed')
+# 	follow_time = models.DateTimeField(auto_now=True) 
 
 

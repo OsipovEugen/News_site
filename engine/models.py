@@ -6,11 +6,21 @@ from django.shortcuts import reverse
 from django.http import HttpResponse
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.models import ContentType
 
 def gen_slug(s):
 	new_slug = slugify(s, allow_unicode=True)
 	return new_slug + '-' + str(int(time()))
 
+
+class Like(models.Model):
+	time = models.DateTimeField(auto_now_add=True)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes')
+	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+	object_id = models.PositiveIntegerField()
+	content_object = GenericForeignKey('content_type', 'object_id')
 
 
 class News(models.Model):
@@ -21,6 +31,7 @@ class News(models.Model):
 	image = models.ImageField(blank=True, verbose_name='Фото')
 	rubric = models.ManyToManyField('Rubrics', blank=True, related_name='news')
 	authors = models.ManyToManyField('Authors', blank=False, related_name='authors_of_news')
+	likes = GenericRelation(Like)
 
 
 	def get_absolute_url(self):
@@ -34,6 +45,10 @@ class News(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def total_like(self):
+		return self.likes.count()
+	
 
 
 	def save(self, *args, **kwargs):
@@ -49,7 +64,7 @@ class News(models.Model):
 
 
 class Rubrics(models.Model):
-	title = models.CharField(unique=True, max_length=150,verbose_name='Название рубрики')
+	title = models.CharField(unique=True, max_length=150, verbose_name='Название рубрики')
 	slug = models.SlugField(unique=True, blank=True)
 
 
@@ -161,5 +176,7 @@ class User(AbstractUser):
 # 	follower = models.ForeignKey(User, related_name='who_follows')
 # 	followed = models.ForeignKey(User, related_neme='who_is_followed')
 # 	follow_time = models.DateTimeField(auto_now=True) 
+
+
 
 

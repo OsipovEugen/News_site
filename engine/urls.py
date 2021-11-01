@@ -8,6 +8,7 @@ urlpatterns = [
 	# News model
     path('news/', NewsListView.as_view(), name='news_list_url'),
     path('news/<str:slug>', NewsDetailView.as_view(), name='post_detail_url'),
+    # path('news/like/<str:slug>', AddLike.as_view()),
     path('news/news_create/', NewsCreate.as_view(), name='news_create_url'),
     path('news/<str:slug>/update/', NewsUpdate.as_view(), name='news_update_url'),
     path('news/<str:slug>/delete', NewsDelete.as_view(), name='news_delete_url'),
@@ -36,7 +37,9 @@ urlpatterns = [
     #Profile
     path('profile/', ProfileView.as_view(), name='profile_url'),
     path('profile/edit/<int:pk>', ProfileUpdateView.as_view(), name='profile_edit_url'),
-    path('', include('social_django.urls', namespace='social'))
+    path('', include('social_django.urls', namespace='social')),
+
+
 
 
  ]

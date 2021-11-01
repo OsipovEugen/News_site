@@ -25,9 +25,13 @@ class CommentAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
 	list_display = ('username', 'email')
 
+class LikeAdmin(admin.ModelAdmin):
+	list_display=('user',)
+
 
 
 admin.site.register(News, NewsAdmin)
+admin.site.register(Like, LikeAdmin)
 admin.site.register(Rubrics, RubricsAdmin)
 admin.site.register(Authors, AutrhorsAdmin)
 admin.site.register(Comment, CommentAdmin)

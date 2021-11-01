@@ -1,11 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin, CreateView
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.views.generic.base import RedirectView
 from django.contrib.auth import authenticate, login
-from django.contrib import auth 
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,8 +13,20 @@ from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 from django.contrib.auth import get_user_model
+from . import services
+from django.views import View
 
 User = get_user_model()
+
+class LikeView(View):
+    def fans(self, request, pk=None):
+        """Получает всех пользователей, которые лайкнули `obj`.
+        """
+        obj = self.get_object()
+        fans = services.get_fans(obj)
+        serializer = News.likes.all()
+        return Response(serializer)
+
 
 
 class NewsListView(ListView):
@@ -36,7 +47,6 @@ class NewsDetailView(DetailView, FormMixin):
 	form_class = CommentForm
 	def get_success_url(self, **kawrgs):
 		''' Урл для переадресации после заполнения формы'''
-		print(self.get_object())
 		return reverse_lazy('post_detail_url', kwargs={'slug':self.get_object().slug}) # get_object - возвращает объект который данная вьюха обрабатывает, в моем случае определенный пост
 
 	def get_context_data(self, **kwargs):
